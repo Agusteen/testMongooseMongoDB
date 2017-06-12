@@ -5,6 +5,7 @@ var app = require('./app');
 mongoose.Promise = global.Promise;
 
 
+
 var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
                 replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
 
@@ -24,13 +25,31 @@ var Schema = new mongoose.Schema({
 var user = mongoose.model('empleados', Schema);
 app.connect(options);
 
+
+
+//INSERT
 app.post('/new', function(req, res) {
   new user({
     name: req.body.name,
     age: req.body.age
   }).save(function(err, doc){
     if(err) res.json(err);
-    else res.send('El usuario se registro correctamente');
+    else res.redirect('/view');
   });
 
 });
+
+//CONSULTA
+//find(condicion de busqueda, callback)
+app.get('/view', function(req, res){
+  user.find({}, function(err, docs){
+
+    if(err) res.json(err);
+    else {
+      res.render('index', {users: docs});
+    }
+  });
+
+});
+
+//UPDATE

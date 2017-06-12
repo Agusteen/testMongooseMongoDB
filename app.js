@@ -11,7 +11,8 @@ var path = require('path');
 
 app.set('port', port);
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+app.set('view engine', 'jade'); //no se que es
+
 
 
 
